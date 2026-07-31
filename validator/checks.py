@@ -1,6 +1,7 @@
 from validator.utils import (
     compare_tls_versions,
     find_duplicate_event_ids,
+    find_broken_hash_chain,
 )
 
 
@@ -67,6 +68,28 @@ def check_duplicate_events(telemetry):
             "event_id": event["event_id"],
             "actor": event["actor"],
             "code": "DUPLICATE_EVENT_ID"
+        })
+
+    return failures
+
+
+def check_hash_chain(telemetry):
+    """
+    Detect broken privileged access hash chains.
+    """
+
+    failures = []
+
+    broken = find_broken_hash_chain(
+        telemetry["privileged_access"]
+    )
+
+    for event in broken:
+
+        failures.append({
+            "event_id": event["event_id"],
+            "actor": event["actor"],
+            "code": "HASH_CHAIN_BROKEN"
         })
 
     return failures

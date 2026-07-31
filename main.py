@@ -4,6 +4,7 @@ from validator.checks import (
     check_tls_version,
     check_privileged_mfa,
     check_duplicate_events,
+    check_hash_chain,
 )
 
 
@@ -82,6 +83,24 @@ def main():
         for failure in duplicate_failures:
             print(
                 f"FAIL: Duplicate event ID "
+                f"{failure['event_id']} "
+                f"({failure['actor']})"
+            )
+    else:
+        print("PASS")
+
+    # -----------------------------
+    # Hash Chain Validation
+    # -----------------------------
+    hash_failures = check_hash_chain(telemetry)
+
+    print("\nHash Chain Validation")
+    print("---------------------")
+
+    if hash_failures:
+        for failure in hash_failures:
+            print(
+                f"FAIL: Broken hash chain at "
                 f"{failure['event_id']} "
                 f"({failure['actor']})"
             )

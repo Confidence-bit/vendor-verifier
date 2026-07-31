@@ -19,7 +19,7 @@ def compare_tls_versions(observed, minimum):
 
 def find_duplicate_event_ids(events):
     """
-    Return a list of duplicate event IDs.
+    Return duplicate privileged access events.
     """
 
     seen = set()
@@ -27,12 +27,30 @@ def find_duplicate_event_ids(events):
 
     for event in events:
 
-        event_id = event["event_id"]
-
-        if event_id in seen:
+        if event["event_id"] in seen:
             duplicates.append(event)
-
         else:
-            seen.add(event_id)
+            seen.add(event["event_id"])
 
     return duplicates
+
+
+def find_broken_hash_chain(events):
+    """
+    Return events whose previous_hash
+    does not match the previous event's hash.
+    """
+
+    failures = []
+
+    previous_hash = "ROOT"
+
+    for event in events:
+
+        if event["previous_hash"] != previous_hash:
+
+            failures.append(event)
+
+        previous_hash = event["hash"]
+
+    return failures
