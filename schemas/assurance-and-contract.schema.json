@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Assurance and Contract",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "assurance_report",
+    "contract",
+    "subprocessors"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "assurance_report": {
+      "type": "object"
+    },
+    "contract": {
+      "type": "object"
+    },
+    "subprocessors": {
+      "type": "array"
+    }
+  }
+}

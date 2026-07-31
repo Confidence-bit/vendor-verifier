@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Evidence Verdicts",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "check",
+      "status",
+      "code",
+      "details"
+    ],
+    "properties": {
+      "check": {
+        "type": "string"
+      },
+      "status": {
+        "enum": [
+          "PASS",
+          "FAIL",
+          "INSUFFICIENT",
+          "MALFORMED"
+        ]
+      },
+      "code": {
+        "type": "string"
+      },
+      "details": {
+        "type": "object"
+      }
+    }
+  }
+}

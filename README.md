@@ -2,25 +2,27 @@
 
 ## Overview
 
-Vendor Verifier is a Python-based governance, risk, and compliance (GRC) assessment tool developed for the UBI – The Root Access Network Advanced Programme (Stage 6).
+Vendor Verifier is a Python-based evidence verification and vendor risk assessment tool developed for the **UBI – The Root Access Network GRC Analyst Stage 6** assessment.
 
-The project validates machine-readable vendor evidence, compares technical evidence against vendor claims, identifies contradictions, and generates assessment artifacts to support vendor risk decisions.
+The application validates machine-readable vendor evidence, compares vendor claims with technical evidence, detects contradictions, and generates governance artifacts that support vendor risk decisions.
 
 ---
 
 ## Features
 
-- Validates vendor JSON evidence
-- Checks TLS configuration compliance
-- Detects privileged access without MFA
-- Detects duplicate privileged access events
-- Verifies audit log hash chain integrity
-- Generates machine-readable evidence verdicts
-- Produces a contradiction matrix
-- Generates a vendor risk register
-- Produces a data flow graph
-- Generates a vendor risk assessment memo (PDF)
-- Creates supporting governance documentation
+- Typed JSON ingestion
+- JSON Schema validation
+- TLS version verification
+- Privileged MFA verification
+- Duplicate privileged event detection
+- Audit hash-chain verification
+- Contradiction matrix generation
+- Evidence verdict generation
+- Vendor risk register generation
+- Data flow graph generation
+- Contract redline recommendations
+- Monitoring plan generation
+- Vendor risk memo (PDF)
 
 ---
 
@@ -28,13 +30,14 @@ The project validates machine-readable vendor evidence, compares technical evide
 
 ```
 vendor-verifier/
+├── fixtures/
 ├── input/
 ├── output/
 ├── schemas/
 ├── tests/
 ├── validator/
 ├── main.py
-├── generate_pdf.py
+├── Makefile
 ├── requirements.txt
 └── README.md
 ```
@@ -43,8 +46,9 @@ vendor-verifier/
 
 ## Requirements
 
-- Python 3.14
-- Virtual Environment (recommended)
+- Python 3.14+
+- pip
+- Virtual environment (recommended)
 
 Install dependencies:
 
@@ -54,27 +58,41 @@ pip install -r requirements.txt
 
 ---
 
-## Running the Assessment
+## Run the validator
 
-Execute:
+```bash
+make run
+```
+
+or
 
 ```bash
 python main.py
 ```
 
-This validates the supplied evidence and generates assessment artifacts in the `output/` directory.
+---
+
+## Run the test suite
+
+```bash
+make test
+```
+
+or
+
+```bash
+pytest -v
+```
 
 ---
 
-## Generate the PDF Report
-
-Run:
+## Generate the PDF report
 
 ```bash
 python generate_pdf.py
 ```
 
-The report will be generated as:
+The report is saved to:
 
 ```
 output/vendor-risk-memo.pdf
@@ -82,27 +100,29 @@ output/vendor-risk-memo.pdf
 
 ---
 
-## Generated Deliverables
+## Generated Outputs
 
-The project produces:
+Running the validator produces:
 
 - evidence-verdicts.json
 - contradiction-matrix.csv
 - vendor-risk-register.csv
 - contract-redlines.md
 - monitoring-plan.yaml
-- evidence-index.csv
 - data-flow.graphml
-- vendor-risk-memo.pdf
+- evidence-index.csv
 - integrity-attestation.md
+- vendor-risk-memo.pdf
 
 ---
 
-## Technologies Used
+## Technologies
 
-- Python 3.14
-- JSON
+- Python
+- Pytest
+- JSON Schema
 - ReportLab
+- NetworkX
 - Git
 - GitHub
 - Ubuntu Linux
@@ -111,4 +131,4 @@ The project produces:
 
 ## Author
 
-Orji Ogechukwu Confidence
+**Orji Ogechukwu Confidence
