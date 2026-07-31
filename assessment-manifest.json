@@ -1,0 +1,20 @@
+{
+  "project": "vendor-verifier",
+  "assessment": "UBI - The Root Access Network - GRC Analyst Stage 6",
+  "intern_code": "UBI-2026-0017",
+  "variant": "D4",
+  "evidence_marker": "UBI-A6-BC7742481B33",
+  "generated_at": "2026-07-31T03:59:00Z",
+  "deliverables": [
+    "output/evidence-verdicts.json",
+    "output/data-flow.graphml",
+    "output/vendor-risk-memo.pdf",
+    "output/vendor-risk-register.csv",
+    "output/contradiction-matrix.csv",
+    "output/contract-redlines.md",
+    "output/monitoring-plan.yaml",
+    "output/evidence-index.csv",
+    "output/integrity-attestation.md"
+  ]
+}
+
