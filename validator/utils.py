@@ -37,18 +37,27 @@ def find_duplicate_event_ids(events):
 
 def find_broken_hash_chain(events):
     """
-    Return events whose previous_hash
-    does not match the previous event's hash.
+    Return events whose previous_hash does not match
+    the previous event's hash.
+
+    Duplicate event IDs are ignored because they are
+    handled separately by the duplicate event validator.
     """
 
     failures = []
 
     previous_hash = "ROOT"
+    seen_event_ids = set()
 
     for event in events:
 
-        if event["previous_hash"] != previous_hash:
+        # Ignore duplicate event IDs
+        if event["event_id"] in seen_event_ids:
+            continue
 
+        seen_event_ids.add(event["event_id"])
+
+        if event["previous_hash"] != previous_hash:
             failures.append(event)
 
         previous_hash = event["hash"]

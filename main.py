@@ -6,6 +6,7 @@ from validator.checks import (
     check_duplicate_events,
     check_hash_chain,
 )
+from validator.reporter import write_verdicts
 
 
 def main():
@@ -25,7 +26,6 @@ def main():
 
     print("✅ Vendor claims schema is valid.")
 
-    # Display information about the loaded files
     print("Vendor claims loaded successfully!")
     print("Assurance and contract loaded successfully!")
     print("Vendor telemetry loaded successfully!")
@@ -106,6 +106,46 @@ def main():
             )
     else:
         print("PASS")
+
+    # -----------------------------
+    # Collect all validation findings
+    # -----------------------------
+    verdicts = []
+
+    for failure in tls_failures:
+        verdicts.append({
+            "check": "TLS",
+            "status": "FAIL",
+            "code": failure["code"],
+            "details": failure
+        })
+
+    for failure in mfa_failures:
+        verdicts.append({
+            "check": "MFA",
+            "status": "FAIL",
+            "code": failure["code"],
+            "details": failure
+        })
+
+    for failure in duplicate_failures:
+        verdicts.append({
+            "check": "Duplicate Event",
+            "status": "FAIL",
+            "code": failure["code"],
+            "details": failure
+        })
+
+    for failure in hash_failures:
+        verdicts.append({
+            "check": "Hash Chain",
+            "status": "FAIL",
+            "code": failure["code"],
+            "details": failure
+        })
+
+    # Write required Stage 6 deliverable
+    write_verdicts(verdicts)
 
 
 if __name__ == "__main__":
