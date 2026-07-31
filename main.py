@@ -1,6 +1,10 @@
 from validator.loader import load_json
 from validator.validators import validate_vendor_claims
-from validator.checks import check_tls_version
+from validator.checks import (
+    check_tls_version,
+    check_privileged_mfa,
+    check_duplicate_events,
+)
 
 
 def main():
@@ -30,7 +34,9 @@ def main():
     print(f"Claims: {len(claims['claims'])}")
     print(f"Telemetry schema version: {telemetry['schema_version']}")
 
-    # Run TLS validation
+    # -----------------------------
+    # TLS Validation
+    # -----------------------------
     tls_failures = check_tls_version(telemetry)
 
     print("\nTLS Validation")
@@ -42,6 +48,42 @@ def main():
                 f"FAIL: {failure['endpoint']} "
                 f"uses {failure['observed']} "
                 f"(minimum {failure['required']})"
+            )
+    else:
+        print("PASS")
+
+    # -----------------------------
+    # Privileged MFA Validation
+    # -----------------------------
+    mfa_failures = check_privileged_mfa(telemetry)
+
+    print("\nPrivileged MFA Validation")
+    print("-------------------------")
+
+    if mfa_failures:
+        for failure in mfa_failures:
+            print(
+                f"FAIL: {failure['actor']} "
+                f"({failure['event_id']}) "
+                f"did not use MFA"
+            )
+    else:
+        print("PASS")
+
+    # -----------------------------
+    # Duplicate Event Validation
+    # -----------------------------
+    duplicate_failures = check_duplicate_events(telemetry)
+
+    print("\nDuplicate Event Validation")
+    print("--------------------------")
+
+    if duplicate_failures:
+        for failure in duplicate_failures:
+            print(
+                f"FAIL: Duplicate event ID "
+                f"{failure['event_id']} "
+                f"({failure['actor']})"
             )
     else:
         print("PASS")

@@ -15,3 +15,24 @@ def compare_tls_versions(observed, minimum):
     minimum_value = float(minimum)
 
     return observed_value >= minimum_value
+
+
+def find_duplicate_event_ids(events):
+    """
+    Return a list of duplicate event IDs.
+    """
+
+    seen = set()
+    duplicates = []
+
+    for event in events:
+
+        event_id = event["event_id"]
+
+        if event_id in seen:
+            duplicates.append(event)
+
+        else:
+            seen.add(event_id)
+
+    return duplicates
